@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Image Compressor – Reduce Image Size Without Losing Quality</title>
+  <meta name="description" content="Free online image compressor to reduce photo size without losing quality. Set your target file size and compress instantly. 100% free, fast, and easy to use.">
+  <meta name="keywords" content="image compressor, free image compressor, compress image online, reduce image size, photo compressor, image size reducer, online compressor">
+  <meta name="author" content="Your Name or Brand">
+  <meta property="og:title" content="Free Image Compressor – Reduce Image Size Without Losing Quality">
+  <meta property="og:description" content="Compress images online by choosing a target file size (KB) without losing quality. Fast, free, and user-friendly image compression.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com">
+  <meta property="og:image" content="https://yourdomain.com/thumbnail.jpg">
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@1.0.15/dist/browser-image-compression.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+      color: #333;
+    }
+    input[type='file'], input[type='range'], input[type='number'] {
+      margin-bottom: 20px;
+    }
+    .preview {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .image-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    button:disabled {
+      background-color: gray;
+    }
+    .slider-container {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Free Image Compressor</h1>
+  <p><strong>Reduce your image file size online in seconds.</strong> Upload any photo, choose a target file size (in KB), and compress it instantly without sacrificing quality. 100% free and browser-based.</p>
+  <input type="file" accept="image/*" id="imageInput" />
+
+  <div class="slider-container">
+    <label for="sizeSlider">Target Size: <span id="targetSizeValue">500</span> KB</label><br>
+    <input type="range" id="sizeSlider" min="100" max="1000" step="50" value="500" />
+    <br>
+    <label for="sizeInput">Or enter size manually (KB): </label>
+    <input type="number" id="sizeInput" min="50" max="5000" value="500" />
+  </div>
+
+  <button id="compressBtn" disabled>Compress Image</button>
+  <div class="preview" id="preview"></div>
+
+  <script>
+    const input = document.getElementById('imageInput');
+    const compressBtn = document.getElementById('compressBtn');
+    const preview = document.getElementById('preview');
+    const sizeSlider = document.getElementById('sizeSlider');
+    const sizeInput = document.getElementById('sizeInput');
+    const targetSizeValue = document.getElementById('targetSizeValue');
+
+    let selectedFile = null;
+
+    // Sync slider and input
+    sizeSlider.addEventListener('input', () => {
+      sizeInput.value = sizeSlider.value;
+      targetSizeValue.textContent = sizeSlider.value;
+    });
+
+    sizeInput.addEventListener('input', () => {
+      sizeSlider.value = sizeInput.value;
+      targetSizeValue.textContent = sizeInput.value;
+    });
+
+    input.addEventListener('change', (e) => {
+      selectedFile = e.target.files[0];
+      if (selectedFile) {
+        compressBtn.disabled = false;
+        preview.innerHTML = `<div class="image-box">
+            <p>Original Image (${(selectedFile.size / 1024).toFixed(2)} KB)</p>
+            <img src="${URL.createObjectURL(selectedFile)}" width="200"/>
+          </div>`;
+      }
+    });
+
+    compressBtn.addEventListener('click', async () => {
+      if (!selectedFile) return;
+
+      const targetSizeMB = parseFloat(sizeInput.value) / 1024; // Convert KB to MB
+
+      const options = {
+        maxSizeMB: targetSizeMB,
+        useWebWorker: true
+      };
+
+      try {
+        const compressedFile = await imageCompression(selectedFile, options);
+        const compressedUrl = URL.createObjectURL(compressedFile);
+
+        const link = document.createElement('a');
+        link.href = compressedUrl;
+        link.download = 'compressed_' + selectedFile.name;
+
+        preview.innerHTML += `<div class="image-box">
+            <p>Compressed Image (${(compressedFile.size / 1024).toFixed(2)} KB)</p>
+            <img src="${compressedUrl}" width="200" />
+            <br><br>
+          </div>`;
+        preview.appendChild(link);
+        link.innerText = 'Download Compressed Image';
+        link.style.marginTop = '10px';
+      } catch (e) {
+        alert('Compression failed: ' + e.message);
+      }
+    });
+  </script>
+</body>
+</html>
