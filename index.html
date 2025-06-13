@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RG0CTCM8SC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RG0CTCM8SC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RG0CTCM8SC');
+  </script>
 
-  gtag('config', 'G-RG0CTCM8SC');
-</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Free Image Compressor – Reduce Image Size Without Losing Quality</title>
   <meta name="description" content="Compress your images online instantly without losing quality. Set your desired file size in KB and reduce image size free. 100% free, browser-based, and fast.">
   <meta name="keywords" content="image compressor, free image compressor, compress image online, reduce image size, photo compressor, image size reducer, online compressor, image compression tool">
@@ -19,10 +20,31 @@
   <meta property="og:title" content="Free Image Compressor – Reduce Image Size Without Losing Quality">
   <meta property="og:description" content="Compress images online by choosing a target file size (KB) without losing quality. Fast, free, and user-friendly image compression.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yourdomain.com">
-  <meta property="og:image" content="https://yourdomain.com/thumbnail.jpg">
+  <meta property="og:url" content="https://free-image-compressorr.netlify.app">
+  <meta property="og:image" content="https://free-image-compressorr.netlify.app/thumbnail.jpg">
+  <link rel="canonical" href="https://free-image-compressorr.netlify.app/">
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Free Image Compressor",
+    "url": "https://free-image-compressorr.netlify.app/",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "All",
+    "description": "Compress images online for free without losing quality. Upload JPG, PNG and optimize for web use.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@1.0.15/dist/browser-image-compression.js"></script>
+
   <style>
     body {
       font-family: sans-serif;
@@ -78,6 +100,11 @@
     #dropArea.dragover {
       background-color: #cde4ff;
     }
+    section {
+      max-width: 600px;
+      margin-top: 40px;
+      text-align: left;
+    }
   </style>
 </head>
 <body>
@@ -85,7 +112,6 @@
   <p><strong>Reduce your image file size online in seconds.</strong> Upload or drag-and-drop multiple images, choose a target file size (in KB), and compress them instantly. 100% free and browser-based.</p>
 
   <input type="file" accept="image/*" id="imageInput" multiple />
-
   <div id="dropArea">Drag & Drop Images Here</div>
 
   <div class="slider-container">
@@ -98,6 +124,22 @@
 
   <button id="compressBtn" disabled>Compress Selected Images</button>
   <div class="preview" id="preview"></div>
+
+  <!-- Keyword-rich content section -->
+  <section>
+    <h2>Why Use Our Free Image Compressor?</h2>
+    <p>Our browser-based image compression tool helps you reduce JPG and PNG file sizes without compromising image quality. Perfect for web developers, bloggers, and anyone who needs fast image optimization. No downloads or signups required.</p>
+
+    <h3>Supported Image Formats</h3>
+    <ul>
+      <li>JPG / JPEG</li>
+      <li>PNG</li>
+      <li>WebP (coming soon)</li>
+    </ul>
+
+    <h3>Common Use Cases</h3>
+    <p>Compress images for websites, blogs, email attachments, or faster uploads. Our free image compressor is ideal for Shopify stores, WordPress blogs, and portfolio sites.</p>
+  </section>
 
   <script>
     const input = document.getElementById('imageInput');
@@ -128,7 +170,7 @@
       selectedFiles.forEach(file => {
         preview.innerHTML += `<div class="image-box">
           <p>Original Image (${file.name}, ${(file.size / 1024).toFixed(2)} KB)</p>
-          <img src="${URL.createObjectURL(file)}" width="200" alt="Original Image Preview" loading="lazy" />
+          <img src="${URL.createObjectURL(file)}" width="200" alt="Uploaded original ${file.type} image preview" loading="lazy" />
         </div>`;
       });
     }
@@ -170,7 +212,7 @@
 
           preview.innerHTML += `<div class="image-box">
               <p>Compressed Image (${compressedFile.name}, ${(compressedFile.size / 1024).toFixed(2)} KB)</p>
-              <img src="${compressedUrl}" width="200" alt="Compressed Image Preview" loading="lazy" />
+              <img src="${compressedUrl}" width="200" alt="Compressed version of ${file.name}" loading="lazy" />
               <br><br>
             </div>`;
           preview.appendChild(link);
